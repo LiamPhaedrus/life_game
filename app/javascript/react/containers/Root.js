@@ -1,7 +1,7 @@
 
 import React from 'react';
 // import { Router, Route, browserHistory } from 'react-router';
-// import HomePage from './containers/HomePage';
+import HomePage from './HomePage';
 // import WarPage from './containers/Warpage';
 
 // const Root = (props) => {
@@ -15,7 +15,7 @@ import React from 'react';
 
 const Root = (props) => {
   return (
-    <h1>Whee</h1>
+    <HomePage />
   )
 }
 

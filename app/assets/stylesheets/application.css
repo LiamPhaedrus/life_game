@@ -13,3 +13,28 @@
  *= require_tree .
  *= require_self
  */
+
+.board {
+  margin-top: 25px;
+  display: grid;
+}
+
+/* .row {
+  display: inline-grid;
+} */
+
+.dead {
+  border: 1px solid black;
+  background-color: white;
+  width: 15px;
+  height: 15px;
+  display: inline-grid;
+}
+
+.alive {
+  border: 1px solid black;
+  background-color: LightGreen;
+  width: 15px;
+  height: 15px;
+  display: inline-grid;
+}
