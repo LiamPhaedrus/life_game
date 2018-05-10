@@ -19,18 +19,18 @@ class HomePage extends Component {
     this.buttonStart = this.buttonStart.bind(this)
     this.buttonReset = this.buttonReset.bind(this)
     this.handleSwitch = this.handleSwitch.bind(this)
+    this.gameLogic = this.gameLogic.bind(this)
+    this.livingNeighborCount = this.livingNeighborCount.bind(this)
   }
 
   setGrid (height, width) {
-    if (this.state.grid.length !== height || this.state.grid[0].length !== width) {
-      let newGrid = []
-      for (var i = 0; i < height; i++) {
-        let newRow = []
-        for (var x = 0; x < width; x++) {
-          newRow.push(false)
-        }
-        newGrid.push(newRow)
+    let newGrid = []
+    for (var i = 0; i < height; i++) {
+      let newRow = []
+      for (var x = 0; x < width; x++) {
+        newRow.push(false)
       }
+      newGrid.push(newRow)
       this.setState({ grid: newGrid})
     }
   }
@@ -38,8 +38,8 @@ class HomePage extends Component {
   settingUp () {
     let height
     let width
-    height = (this.state.height === 0) ? 50:height
-    width = (this.state.width === 0) ? 50:width
+    height = (this.state.height === 0) ? 10 : this.state.height
+    width = (this.state.width === 0) ? 10 : this.state.height
     this.setGrid(height, width)
     this.setState({
       height: height,
@@ -48,11 +48,12 @@ class HomePage extends Component {
   }
 
   buttonStart () {
-    let isRunning = this.state.running
-    this.setState({
-      running: !isRunning,
-      cleanStart: false
-    })
+    // let isRunning = this.state.running
+    // this.setState({
+    //   running: !isRunning,
+    //   cleanStart: false
+    // })
+    this.gameLogic()
   }
 
   buttonReset () {
@@ -60,14 +61,83 @@ class HomePage extends Component {
       running: false,
       cleanStart: true
     })
+    this.settingUp()
   }
 
   handleSwitch (row, spot) {
     let newGrid = this.state.grid
-    let cellStat = newGrid[row][spot]
-    newGrid[row][spot] = !cellStat
+    let cellState = newGrid[row][spot]
+    newGrid[row][spot] = !cellState
     this.setState({ grid: newGrid})
-    console.log(`Switched: ${row}, ${spot}`)
+  }
+
+  gameLogic () {
+    // let newGrid = this.state.grid
+    let newGrid = []
+    for (var row = 0; row < this.state.height; row++) {
+      newGrid.push([])
+      for (var spot = 0; spot < this.state.width; spot++) {
+        let cellState = this.state.grid[row][spot]
+        let nCount = this.livingNeighborCount(row, spot)
+        if (cellState && (nCount < 2 || nCount > 3)) {
+          newGrid[row][spot] = !cellState
+        } else if (!cellState && nCount === 3) {
+          newGrid[row][spot] = !cellState
+        } else {
+          newGrid[row][spot] = cellState
+        }
+      }
+    }
+
+    this.setState({ grid: newGrid })
+  }
+
+  livingNeighborCount (row, spot) {
+    let uRow = (row === 0) ? (this.state.height - 1) : (row - 1)
+    let dRow = (row === this.state.height - 1) ? 0 : (row + 1)
+    let lSpot = (spot === 0) ? (this.state.width - 1) : (spot - 1)
+    let rSpot = (spot === this.state.width - 1) ? 0 : (spot + 1)
+
+    let countables = [
+      this.state.grid[uRow][spot],
+      this.state.grid[uRow][lSpot],
+      this.state.grid[uRow][rSpot],
+      this.state.grid[row][lSpot],
+      this.state.grid[row][rSpot],
+      this.state.grid[dRow][spot],
+      this.state.grid[dRow][lSpot],
+      this.state.grid[dRow][rSpot]
+    ]
+
+    let count = countables.filter(item => item).length
+    // if (this.state.grid[uRow][spot]) {
+    //   countables.push('.')
+    // }
+    // if (this.state.grid[uRow][lSpot]) {
+    //   countables.push('.')
+    // }
+    // if (this.state.grid[uRow][rSpot]) {
+    //   countables.push('.')
+    // }
+    // if (this.state.grid[row][lSpot]) {
+    //   countables.push('.')
+    // }
+    // if (this.state.grid[row][rSpot]) {
+    //   countables.push('.')
+    // }
+    // if (this.state.grid[dRow][spot]) {
+    //   countables.push('.')
+    // }
+    // if (this.state.grid[dRow][lSpot]) {
+    //   countables.push('.')
+    // }
+    // if (this.state.grid[dRow][rSpot]) {
+    //   countables.push('.')
+    // }
+    // if (count === 3) {
+    //   debugger
+    // }
+    return count
   }
 
   componentWillMount () {
@@ -75,6 +145,12 @@ class HomePage extends Component {
       this.settingUp()
     }
   }
+
+  // componentDidMount () {
+  //   if (this.state.running) {
+  //     setTimeout(this.gameLogic, 1000)
+  //   }
+  // }
 
   render () {
 
@@ -93,7 +169,7 @@ class HomePage extends Component {
         <SomeButton
           key={"reset" + 2}
           words="Reset"
-          handleClick={this.buttonStart}
+          handleClick={this.buttonReset}
         />
         <GridContainer
           grid={this.state.grid}

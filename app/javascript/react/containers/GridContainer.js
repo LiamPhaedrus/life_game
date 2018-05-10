@@ -38,9 +38,6 @@ class GridContainer extends Component {
     return gridRows
   }
 
-  // let fullGrid = this.renderFullGrid(this.props.grid).map(row => {
-  //   <div className
-  // })
   render () {
 
     return(
