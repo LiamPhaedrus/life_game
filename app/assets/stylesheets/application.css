@@ -19,9 +19,9 @@
   display: grid;
 }
 
-/* .row {
-  display: inline-grid;
-} */
+.row {
+  height: 16px;
+}
 
 .dead {
   border: 1px solid black;
