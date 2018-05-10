@@ -18,6 +18,7 @@ class HomePage extends Component {
     this.settingUp = this.settingUp.bind(this)
     this.buttonStart = this.buttonStart.bind(this)
     this.buttonReset = this.buttonReset.bind(this)
+    this.handleSwitch = this.handleSwitch.bind(this)
   }
 
   setGrid (height, width) {
@@ -31,15 +32,14 @@ class HomePage extends Component {
         newGrid.push(newRow)
       }
       this.setState({ grid: newGrid})
-      console.log(newGrid)
     }
   }
 
   settingUp () {
     let height
     let width
-    height = (this.state.height === 0) ? 20:height
-    width = (this.state.width === 0) ? 20:width
+    height = (this.state.height === 0) ? 50:height
+    width = (this.state.width === 0) ? 50:width
     this.setGrid(height, width)
     this.setState({
       height: height,
@@ -62,6 +62,14 @@ class HomePage extends Component {
     })
   }
 
+  handleSwitch (row, spot) {
+    let newGrid = this.state.grid
+    let cellStat = newGrid[row][spot]
+    newGrid[row][spot] = !cellStat
+    this.setState({ grid: newGrid})
+    console.log(`Switched: ${row}, ${spot}`)
+  }
+
   componentWillMount () {
     if (this.state.running === false && this.state.cleanStart === true) {
       this.settingUp()
@@ -79,7 +87,7 @@ class HomePage extends Component {
         />
         <SomeButton
           key={"start" + 1}
-          words="Start"
+          words={this.state.running ? "Stop" : "Start"}
           handleClick={this.buttonStart}
         />
         <SomeButton
@@ -89,6 +97,7 @@ class HomePage extends Component {
         />
         <GridContainer
           grid={this.state.grid}
+          handleSwitch={this.handleSwitch}
         />
       </div>
     )
