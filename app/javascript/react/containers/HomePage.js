@@ -38,8 +38,8 @@ class HomePage extends Component {
   settingUp () {
     let height
     let width
-    height = (this.state.height === 0) ? 10 : this.state.height
-    width = (this.state.width === 0) ? 10 : this.state.height
+    height = (this.state.height === 0) ? 40 : this.state.height
+    width = (this.state.width === 0) ? 40 : this.state.height
     this.setGrid(height, width)
     this.setState({
       height: height,
@@ -48,11 +48,11 @@ class HomePage extends Component {
   }
 
   buttonStart () {
-    // let isRunning = this.state.running
-    // this.setState({
-    //   running: !isRunning,
-    //   cleanStart: false
-    // })
+    let isRunning = this.state.running
+    this.setState({
+      running: !isRunning,
+      cleanStart: false
+    })
     this.gameLogic()
   }
 
@@ -72,7 +72,6 @@ class HomePage extends Component {
   }
 
   gameLogic () {
-    // let newGrid = this.state.grid
     let newGrid = []
     for (var row = 0; row < this.state.height; row++) {
       newGrid.push([])
@@ -88,7 +87,6 @@ class HomePage extends Component {
         }
       }
     }
-
     this.setState({ grid: newGrid })
   }
 
@@ -110,33 +108,6 @@ class HomePage extends Component {
     ]
 
     let count = countables.filter(item => item).length
-    // if (this.state.grid[uRow][spot]) {
-    //   countables.push('.')
-    // }
-    // if (this.state.grid[uRow][lSpot]) {
-    //   countables.push('.')
-    // }
-    // if (this.state.grid[uRow][rSpot]) {
-    //   countables.push('.')
-    // }
-    // if (this.state.grid[row][lSpot]) {
-    //   countables.push('.')
-    // }
-    // if (this.state.grid[row][rSpot]) {
-    //   countables.push('.')
-    // }
-    // if (this.state.grid[dRow][spot]) {
-    //   countables.push('.')
-    // }
-    // if (this.state.grid[dRow][lSpot]) {
-    //   countables.push('.')
-    // }
-    // if (this.state.grid[dRow][rSpot]) {
-    //   countables.push('.')
-    // }
-    // if (count === 3) {
-    //   debugger
-    // }
     return count
   }
 
@@ -146,11 +117,13 @@ class HomePage extends Component {
     }
   }
 
-  // componentDidMount () {
-  //   if (this.state.running) {
-  //     setTimeout(this.gameLogic, 1000)
-  //   }
-  // }
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      if (this.state.running) {
+        this.gameLogic()
+      }
+    }, 500);
+  }
 
   render () {
 
