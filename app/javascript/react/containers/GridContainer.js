@@ -8,10 +8,6 @@ class GridContainer extends Component {
     this.renderFullGrid = this.renderFullGrid.bind(this)
   }
 
-  // handleBoxClick (event) {
-  //   event.preventDefault()
-  //   console.log('hi')
-  // }
   renderRow (row, num) {
     let aGridRow = []
 
@@ -22,8 +18,9 @@ class GridContainer extends Component {
       aGridRow.push(
         <GridBox
           key={'box' + id}
-          status='dead'
-          id={id}
+          status={deadOrAlive}
+          id={[num, i]}
+          handleSwitch={this.props.handleSwitch}
         />
       )
 
@@ -41,9 +38,6 @@ class GridContainer extends Component {
     return gridRows
   }
 
-  // let fullGrid = this.renderFullGrid(this.props.grid).map(row => {
-  //   <div className
-  // })
   render () {
 
     return(

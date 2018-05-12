@@ -8,14 +8,14 @@ class GridBox extends Component {
 
   handleBoxClick (event) {
     event.preventDefault()
-    console.log(this.props.id)
+    this.props.handleSwitch(this.props.id[0], this.props.id[1])
   }
 
   render () {
 
     return (
-      <div className={this.props.status} onClick={this.handleBoxClick}>
-      </div>
+      <span className={this.props.status} onClick={this.handleBoxClick}>
+      </span>
     )
   }
 }
