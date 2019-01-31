@@ -6,9 +6,9 @@ const GridInfo = (props) => {
   //   image = <img src={props.card.image} />
   // }
   return (
-    <div>
-      <p>Height: {props.height}</p>
-      <p>Width: {props.width}</p>
+    <div className='grid_info'>
+      <span className='height'>Height: {props.height}</span>
+      <span className='width'>Width: {props.width}</span>
     </div>
   )
 }
