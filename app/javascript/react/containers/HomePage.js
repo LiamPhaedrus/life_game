@@ -3,6 +3,7 @@ import React, { Component }  from 'react'
 import GridInfo from '../components/GridInfo'
 import SomeButton from '../components/SomeButton'
 import GridContainer from './GridContainer'
+import InfoContainer from './InfoContainer'
 
 class HomePage extends Component {
   constructor (props) {
@@ -130,7 +131,8 @@ class HomePage extends Component {
     return (
       <div>
         <h1>Game of Life</h1>
-        <GridInfo
+        <InfoContainer
+          isRunning={this.state.running}
           height={this.state.height}
           width={this.state.width}
         />
